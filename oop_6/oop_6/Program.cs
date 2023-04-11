@@ -20,7 +20,7 @@ namespace oop_6
             //Console.WriteLine(a.Inmultire(b).ToString());
             Console.WriteLine(a.Putere(2).ToString());
 
-            Console.WriteLine(a.calculatorDeterminant(a.A));
+            
         }
 
         class Matrix
@@ -132,12 +132,72 @@ namespace oop_6
                 return rez;
             }
 
-            public Matrix Inversa(Matrix matrix)
+            public Matrix Inversa()
             {
-                if(this.n == this.m)
+                int semn;
+                if (this.n == this.m)
                 {
+                    double d = this.calculatorDeterminant(this.A);
+                    if (d != 0)
+                    {
+                        Matrix rez = new Matrix(this.n);
+                        Matrix temp = new Matrix(this.n);
 
+                        //transpusa
+                        for (int i = 0; i < n; i++)
+                        {
+                            for (int j = 0; j < n; j++)
+                            {
+                                //interschimb linia i cu ultima linie (n-1)
+                                for (int k = 0; k < n; k++)
+                                {
+                                    int aux = (int)temp.A[i, k];
+                                    temp.A[i, k] = temp.A[n - 1, k];
+                                    temp.A[n - 1, k] = aux;
+                                }
+                                //interschimb coloana j cu ultima coloana (n-1)
+                                for (int k = 0; k < n; k++)
+                                {
+                                    int aux = (int)temp.A[k, j];
+                                    temp.A[k, j] = temp.A[k, n - 1];
+                                    temp.A[k, n - 1] = aux;
+                                }
+                                //stabilim semnul pentru permutarea liniilor si a coloanelor in matrice
+                                semn = 1;
+                                if (((n - 1 - i) % 2 == 0) && (i != n - 1))
+                                    semn *= -1;
+                                if (((n - 1 - j) % 2 == 0) && (j != n - 1))
+                                    semn *= -1;
+
+                                if ((i + j) % 2 == 1)
+                                    semn *= -1;
+
+                                rez.A[i, j] = semn * calculatorDeterminant(temp.A);
+                                //refac matricea
+                                for (int k = 0; k < n; k++)
+                                {
+                                    int aux = (int)temp.A[i, k];
+                                    temp.A[i, k] = temp.A[n - 1, k];
+                                    temp.A[n - 1, k] = aux;
+                                }
+                                for (int k = 0; k < n; k++)
+                                {
+                                    int aux = (int)temp.A[k, j];
+                                    temp.A[k, j] = temp.A[k, n - 1];
+                                    temp.A[k, n - 1] = aux;
+                                }
+
+                            }
+
+                        }
+                        for (int i = 0; i < n; i++)
+                            for (int j = 0; j < n; j++)
+                                rez.A[i, j] /= d;
+                        return rez;
+                    }
                 }
+                else
+                    Console.WriteLine("Matricea nu este inversabila.");
                 return null;
             }
 
