@@ -49,7 +49,7 @@ namespace oop_7
                 }
             }
 
-            Console.WriteLine($"Dist minima este fata de punctul (x, y) si are valoara: {d}");
+            Console.WriteLine(j + " " + d);
         }
     }
 }
